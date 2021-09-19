@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val showDotSwitch: SwitchCompat = findViewById(R.id.showDotSwitch)
-
+        //TODO: show dot as a floating activity
         showDotSwitch.setOnCheckedChangeListener{_ , isChecked ->
             if(isChecked){
                 Log.d("MainActivity", "showDotSwitch is checked")
