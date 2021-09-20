@@ -25,6 +25,10 @@ class DotService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "DotService onCreate")
+
+        val startDotIntent = Intent(applicationContext, DotActivity::class.java)
+        startDotIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(startDotIntent)
     }
 
     override fun onDestroy() {
