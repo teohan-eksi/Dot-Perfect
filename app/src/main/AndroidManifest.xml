@@ -11,11 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DotPerfect">
+        <activity
+            android:name=".DotActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
+
         <service
             android:name=".DotService"
             android:description="@string/dot_service_description"
-            android:exported="true"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"
