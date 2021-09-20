@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Dot Perfect</string>
+    <string name="dot_service_description">
+        This is for showing the perfect dot on your screen.
+        Please don't kill me!
+    </string>
 </resources>
