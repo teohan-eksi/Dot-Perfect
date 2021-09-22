@@ -33,8 +33,8 @@ class DotService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        stopSelf()
         Log.d(TAG, "DotService onDestroy")
-        //stopSelf()
     }
 /*
     private fun createNotification(): Notification {
