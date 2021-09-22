@@ -23,10 +23,7 @@ class MainActivity : AppCompatActivity() {
             }else{
                 Log.d("MainActivity", "showDotSwitch is not checked")
                 //stopSelf()
-                val isServiceStopped = stopService(Intent(applicationContext, DotService::class.java))
-                if(isServiceStopped){
-                    Log.d(TAG, "service stopped")
-                }
+                stopService(Intent(applicationContext, DotService::class.java))
             }
         }
     }
