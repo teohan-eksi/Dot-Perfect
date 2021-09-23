@@ -13,16 +13,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val serviceIntent = Intent(applicationContext, DotService::class.java)
+
         val showDotSwitch: SwitchCompat = findViewById(R.id.showDotSwitch)
         showDotSwitch.setOnCheckedChangeListener{_ , isChecked ->
             if(isChecked){
                 Log.d("MainActivity", "showDotSwitch is checked")
-                //create an intent to start the service
-                val startServiceIntent = Intent(applicationContext, DotService::class.java )
-                startService(startServiceIntent)
+                startService(serviceIntent)
             }else{
                 Log.d("MainActivity", "showDotSwitch is not checked")
-                stopService(Intent(applicationContext, DotService::class.java))
+                stopService(serviceIntent)
             }
         }
     }

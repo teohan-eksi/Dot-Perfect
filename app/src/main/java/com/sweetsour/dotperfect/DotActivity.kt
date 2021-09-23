@@ -59,6 +59,8 @@ class DotActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dot)
     }
 
+    //since FLAG_ACTIVITY_SINGLE_TOP is set in calling intent, while this activity is running,
+    //new coming intents pass through this method.
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null && intent.getBooleanExtra("isFinishActivity", false)){

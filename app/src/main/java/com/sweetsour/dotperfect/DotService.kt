@@ -44,6 +44,8 @@ class DotService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "DotService onDestroy")
+        //the switch is off, so the service will be closed and at the same time you should close
+        //the dot activity.
         dotIntent.putExtra("isFinishActivity", true)
         startActivity(dotIntent)
         stopSelf()
