@@ -15,7 +15,7 @@
         <activity
             android:name=".DotActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
+            android:theme="@style/Theme.AppCompat.DayNight.DotActivity"/>
 
         <service
             android:name=".DotService"
