@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AppCompat.DayNight.DotActivity" parent="Theme.AppCompat.DayNight.Dialog">
+        <!-- removes the white edges (window background) around the dot
+         and it only works here. Learn more about styles and themes-->
+        <item name="android:windowBackground">@null</item>
+
+        <!-- they dont work -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+</resources>
