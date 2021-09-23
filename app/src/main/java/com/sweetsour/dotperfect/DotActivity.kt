@@ -6,10 +6,11 @@ import android.graphics.PixelFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
-import android.view.WindowInsets
-import android.view.WindowManager
+import android.view.*
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class DotActivity : AppCompatActivity() {
     private val TAG = "DotActivity"
@@ -28,7 +29,8 @@ class DotActivity : AppCompatActivity() {
 
         //this works... Since this activity extends AppCompatActivity which is a base class for
         //activities that wish to use some of the newer platform features on older Android devices,
-        //above approaches don't work on it. Use "support" methods.
+        //above approaches don't work on it. 
+        //Use "support" methods in AppCompat activities.
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
 
         //window flags
@@ -50,6 +52,7 @@ class DotActivity : AppCompatActivity() {
         )
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
+
         setContentView(R.layout.activity_dot)
 
         //dot button
@@ -57,6 +60,13 @@ class DotActivity : AppCompatActivity() {
         dotPerfect.setOnClickListener {
             Log.d(TAG, "dot perfect")
         }
+
+        //understand them
+        //Log.d(TAG, "window style: {${window.windowStyle}}")
+        //Log.d(TAG, "window attr: {${window.attributes}}")
+
+        //play with this
+        //window.setUiOptions()
     }
 
     //since FLAG_ACTIVITY_SINGLE_TOP is set in calling intent, while this activity is running,
