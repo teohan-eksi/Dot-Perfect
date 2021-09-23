@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
                 startService(startServiceIntent)
             }else{
                 Log.d("MainActivity", "showDotSwitch is not checked")
-                //stopSelf()
                 stopService(Intent(applicationContext, DotService::class.java))
             }
         }

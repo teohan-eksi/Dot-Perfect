@@ -1,6 +1,7 @@
 package com.sweetsour.dotperfect
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.PixelFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -58,6 +59,12 @@ class DotActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dot)
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent != null && intent.getBooleanExtra("isFinishActivity", false)){
+            finish()
+        }
+    }
 
     //override back press to disable closing the dot
     override fun onBackPressed() {

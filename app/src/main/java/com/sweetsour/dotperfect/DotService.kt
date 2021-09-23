@@ -10,6 +10,7 @@ import android.util.Log
 
 class DotService : Service() {
     private val TAG = "DotService"
+    private lateinit var dotIntent: Intent
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //return super.onStartCommand(intent, flags, startId)
@@ -26,15 +27,26 @@ class DotService : Service() {
         super.onCreate()
         Log.d(TAG, "DotService onCreate")
 
-        val startDotIntent = Intent(applicationContext, DotActivity::class.java)
-        startDotIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(startDotIntent)
+        dotIntent = Intent(applicationContext, DotActivity::class.java)
+        dotIntent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or
+            //the activity will not be launched if it is already running at the top of the stack.
+            //if an intent that launched an activity resend again, that intent will be delivered
+            //to the current instance of the activity's onNewIntent()
+            Intent.FLAG_ACTIVITY_SINGLE_TOP
+            //FLAG_ACTIVITY_NO_HISTORY -> the new activity is not kept in the history stack.
+            //  As soon as the user navigates away from it, the activity is finished.
+        dotIntent.putExtra("isFinishActivity", false)
+
+        startActivity(dotIntent)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        stopSelf()
         Log.d(TAG, "DotService onDestroy")
+        dotIntent.putExtra("isFinishActivity", true)
+        startActivity(dotIntent)
+        stopSelf()
     }
 /*
     private fun createNotification(): Notification {
