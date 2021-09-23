@@ -9,7 +9,7 @@
     tools:context=".DotActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/dotPerfect"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@color/purple_200"

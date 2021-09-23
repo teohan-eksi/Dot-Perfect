@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Button
 
 class DotActivity : AppCompatActivity() {
     private val TAG = "DotActivity"
@@ -30,13 +31,6 @@ class DotActivity : AppCompatActivity() {
         //above approaches don't work on it. Use "support" methods.
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
 
-        //it works
-        //title = "my title"
-
-        //play with this
-        //window.setUiOptions()
-
-
         //window flags
         //FLAG_NOT_TOUCH_MODAL -> Window flag: even when this window is focusable
         //  (its FLAG_NOT_FOCUSABLE is not set), allow any pointer events
@@ -57,6 +51,12 @@ class DotActivity : AppCompatActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         setContentView(R.layout.activity_dot)
+
+        //dot button
+        val dotPerfect: Button = findViewById(R.id.dotPerfect)
+        dotPerfect.setOnClickListener {
+            Log.d(TAG, "dot perfect")
+        }
     }
 
     //since FLAG_ACTIVITY_SINGLE_TOP is set in calling intent, while this activity is running,
