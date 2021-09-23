@@ -24,8 +24,15 @@ class DotActivity : AppCompatActivity() {
         //this.supportActionBar?.hide()
         //this.setSupportActionBar(null)
 
+        //this works... Since this activity extends AppCompatActivity which is a base class for
+        //activities that wish to use some of the newer platform features on older Android devices,
+        //above approaches don't work on it. Use "support" methods.
+        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+
         //it works
-        //title = ""
+        //title = "my title"
+
+        //play with this
         //window.setUiOptions()
 
 
