@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PixelFormat
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -48,20 +49,32 @@ class DotActivity : AppCompatActivity() {
         //  the action MotionEvent.ACTION_OUTSIDE for touches that occur outside of your window.
         window.addFlags(
             //when this flag is added, the dot doesn't close on outside touches.
-            //and outside touches do actually work.
-            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+            //and outside touches do work but only in the application context.
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+            WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+            //WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+            //WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
-        //?
-        window.setFormat(PixelFormat.TRANSLUCENT)
-        /*
-        window.setType(WindowManager.LayoutParams.)
+        //window.setType(WindowManager.LayoutParams.TYPE_)
+        //Tried for outside touch but they didn't work:
+        //TYPE_APPLICATION_ATTACHED_DIALOG
+        //TYPE_APPLICATION_OVERLAY
+        //TYPE_SYSTEM_DIALOG
+        //TYPE_SYSTEM_OVERLAY n/a
+        //TYPE_SYSTEM_ALERT n/a
+        //TYPE_PHONE n/a
+        //TYPE_TOAST n/a
 
-        window.setGravity()
+        window.setFormat(PixelFormat.TRANSLUCENT)
+
+        //it works
+        window.setGravity(Gravity.START or Gravity.TOP)
+
+/*
         window.setHideOverlayWindows()
         window.setLocalFocus()
-
 
         window.container
         window.context
@@ -81,9 +94,10 @@ class DotActivity : AppCompatActivity() {
         }
 
         //the constraint background is completely transparent,
-        //set the dot bg here for ui visibility.
+        //set the dot bg here for ui visibility. Later let the user tweak it by setting color value
         dotPerfect.setBackgroundColor(Color.argb(150, 0, 51, 53))
         //Color.parseColor("#AARRGGBB") also works
+
     }
 
     //since FLAG_ACTIVITY_SINGLE_TOP is set in calling intent, while this activity is running,
@@ -94,6 +108,21 @@ class DotActivity : AppCompatActivity() {
         if (intent != null && intent.getBooleanExtra("isFinishActivity", false)){
             finish()
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        Log.d(TAG, "dispatchTouchEvent: $ev")
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.d(TAG, "onTouchEvent: $event")
+        return super.onTouchEvent(event)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+            Log.d(TAG, "has focus? $hasFocus")
+            super.onWindowFocusChanged(hasFocus)
     }
 
     //override back press to disable closing the dot
