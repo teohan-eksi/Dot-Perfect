@@ -14,7 +14,7 @@ class DotService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //return super.onStartCommand(intent, flags, startId)
-        Log.d(TAG, "Intent: $intent, flags: $flags, startId: $startId")
+        Log.d(TAG, "onStartCommand")
 
         return START_STICKY
     }
@@ -29,11 +29,18 @@ class DotService : Service() {
 
         dotIntent = Intent(applicationContext, DotActivity::class.java)
         dotIntent.flags =
+            //If a task is already running for the activity you are now starting,
+            //  that task is brought to the foreground with its last state restored
+            //  and the activity receives the new intent in onNewIntent()
             Intent.FLAG_ACTIVITY_NEW_TASK or
             //the activity will not be launched if it is already running at the top of the stack.
-            //if an intent that launched an activity resend again, that intent will be delivered
-            //to the current instance of the activity's onNewIntent()
+            //  if an intent that launched an activity resend again, that intent will be delivered
+            //  to the current instance of the activity's onNewIntent()
             Intent.FLAG_ACTIVITY_SINGLE_TOP
+            //FLAG_ACTIVITY_CLEAR_TOP -> If the activity being started is already running in the
+            //  current task, then instead of launching a new instance of that activity,
+            //  all of the other activities on top of it are destroyed and this intent is
+            //  delivered to the resumed instance of the activity (now on top), through onNewIntent().
             //FLAG_ACTIVITY_NO_HISTORY -> the new activity is not kept in the history stack.
             //  As soon as the user navigates away from it, the activity is finished.
         dotIntent.putExtra("isFinishActivity", false)
