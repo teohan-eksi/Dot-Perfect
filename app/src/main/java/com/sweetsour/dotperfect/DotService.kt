@@ -25,7 +25,7 @@ class DotService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "DotService onCreate")
+        Log.d(TAG, "onCreate")
 
         dotIntent = Intent(applicationContext, DotActivity::class.java)
         dotIntent.flags =
@@ -50,7 +50,7 @@ class DotService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "DotService onDestroy")
+        Log.d(TAG, "onDestroy")
         //the switch is off, so the service will be closed and at the same time you should close
         //the dot activity.
         dotIntent.putExtra("isFinishActivity", true)

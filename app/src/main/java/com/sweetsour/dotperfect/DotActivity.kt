@@ -2,6 +2,7 @@ package com.sweetsour.dotperfect
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PixelFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,7 @@ class DotActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate DotActivity")
+        Log.d(TAG, "onCreate")
 
         // They don't work
         //window.requestFeature(Window.FEATURE_NO_TITLE)
@@ -52,27 +53,44 @@ class DotActivity : AppCompatActivity() {
         )
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
+        //?
+        window.setFormat(PixelFormat.TRANSLUCENT)
+        /*
+        window.setType(WindowManager.LayoutParams.)
+
+        window.setGravity()
+        window.setHideOverlayWindows()
+        window.setLocalFocus()
+
+
+        window.container
+        window.context
+        window.currentFocus
+        window.decorView
+        window.windowStyle
+        window.setUiOptions()
+        window.attributes
+        */
 
         setContentView(R.layout.activity_dot)
 
         //dot button
         val dotPerfect: Button = findViewById(R.id.dotPerfect)
         dotPerfect.setOnClickListener {
-            Log.d(TAG, "dot perfect")
+            Log.d(TAG, "dot perfect tap")
         }
 
-        //understand them
-        //Log.d(TAG, "window style: {${window.windowStyle}}")
-        //Log.d(TAG, "window attr: {${window.attributes}}")
-
-        //play with this
-        //window.setUiOptions()
+        //the constraint background is completely transparent,
+        //set the dot bg here for ui visibility.
+        dotPerfect.setBackgroundColor(Color.argb(150, 0, 51, 53))
+        //Color.parseColor("#AARRGGBB") also works
     }
 
     //since FLAG_ACTIVITY_SINGLE_TOP is set in calling intent, while this activity is running,
     //new coming intents pass through this method.
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        Log.d(TAG, "onNewIntent")
         if (intent != null && intent.getBooleanExtra("isFinishActivity", false)){
             finish()
         }
