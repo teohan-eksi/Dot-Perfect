@@ -8,13 +8,8 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.WindowManager
+import android.view.*
 import android.widget.Button
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 
 class DotService : Service() {
     private val TAG = "DotService"
@@ -34,18 +29,23 @@ class DotService : Service() {
         super.onCreate()
         Log.d(TAG, "onCreate")
 
+        //put the dot on top of the window hierarchy through window manager.
         val windowManager = applicationContext.getSystemService(Context.WINDOW_SERVICE)
                 as WindowManager
         val layoutInflater = baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
                 as LayoutInflater
 
-        val dotViewGroup = layoutInflater.inflate(R.layout.activity_dot, null)
+        val dotViewGroup = layoutInflater.inflate(R.layout.dot_layout, null)
 
         var layoutType: Int
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             layoutType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         }else{
-            layoutType = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY
+            layoutType = WindowManager.LayoutParams.TYPE_PHONE
+            //TYPE_SYSTEM_OVERLAY -> touching the dot dont work on any screen, just for showing stuff
+            //TYPE_SYSTEM_ALERT, TYPE_PHONE -> touching the dot works on any screen but needs
+                //FLAG_NOT_FOCUSABLE for showing the keyboard and back press functionality
+                //because if it has the focus, they dont work automatically.
         }
 
         val dotLayoutParams = WindowManager.LayoutParams(
@@ -58,7 +58,7 @@ class DotService : Service() {
             PixelFormat.TRANSLUCENT
         )
 
-        dotLayoutParams.gravity = Gravity.CENTER
+        //dotLayoutParams.gravity = Gravity.CENTER
         dotLayoutParams.x = 0
         dotLayoutParams.y = 0
 
