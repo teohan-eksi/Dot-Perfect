@@ -21,10 +21,7 @@ class MainActivity : AppCompatActivity() {
         showDotSwitch.setOnCheckedChangeListener{_ , isChecked ->
             if(isChecked){
                 Log.d("MainActivity", "showDotSwitch is checked")
-                val mRunnable = Runnable {
-                    startService(serviceIntent)
-                }
-                Thread(mRunnable).start()
+                startService(serviceIntent)
             }else{
                 Log.d("MainActivity", "showDotSwitch is not checked")
                 stopService(serviceIntent)
