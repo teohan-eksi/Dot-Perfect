@@ -37,7 +37,7 @@ class DotService : Service() {
         val layoutInflater = baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
                 as LayoutInflater
 
-        //inflate
+        //inflate the layout
         val dotViewGroup = layoutInflater.inflate(R.layout.dot_layout, null)
 
         //set version specific layout type
@@ -45,7 +45,7 @@ class DotService : Service() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             layoutType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         }else{
-            layoutType = WindowManager.LayoutParams.TYPE_PHONE
+            layoutType = WindowManager.LayoutParams.TYPE_PHONE // works cool
             //TYPE_SYSTEM_OVERLAY -> touching the dot dont work on any screen, just for showing stuff
             //TYPE_SYSTEM_ALERT, TYPE_PHONE -> touching the dot works on any screen but needs
                 //FLAG_NOT_FOCUSABLE for showing the keyboard and back press functionality;
@@ -60,9 +60,6 @@ class DotService : Service() {
                     //windows behind it. Otherwise it will consume all pointer events itself,
                     //regardless of whether they are inside of the window.
             WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-                    //Window flag for attached windows: Place the window within the entire screen,
-                    //ignoring any constraints from the parent window.
-                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                     //this window won't ever get key input focus, so the user can not send key
                     //or other button events to it. Those will instead go to whatever focusable
                     //window is behind it. This flag will also enable FLAG_NOT_TOUCH_MODAL whether
@@ -76,15 +73,13 @@ class DotService : Service() {
             PixelFormat.TRANSLUCENT
         )
 
+        //the dot and status bar doesn't overlap even without this set up true here
+        //but just in case. Crazy things may happen.
         dotViewGroup.fitsSystemWindows = true
 
-        //dotLayoutParams.gravity = Gravity.CENTER
-        dotLayoutParams.x = 850
-        dotLayoutParams.y = -850
+        //set initial position of the dot.
+        dotLayoutParams.gravity = Gravity.TOP or Gravity.END
 
-        //dotLayoutParams.fitInsetsSides
-
-        Log.d(TAG, "$dotLayoutParams")
         //finally, add the layout to the screen
         windowManager.addView(dotViewGroup, dotLayoutParams)
 
