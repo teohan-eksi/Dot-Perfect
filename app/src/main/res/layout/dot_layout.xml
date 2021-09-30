@@ -8,7 +8,7 @@
     android:layout_margin="40dp"
     android:background="#00ffffff"
     android:padding="0dp"
-    tools:context=".DotActivity">
+    tools:context=".DotService">
 
     <Button
         android:id="@+id/dotPerfect"
