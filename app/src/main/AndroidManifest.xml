@@ -11,14 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DotPerfect">
-        <activity
-            android:name=".DotActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.DotActivity"
-            android:excludeFromRecents="true"/>
-            <!-- dot doesn't show on recents
-            but tapping the launcher icon doesn't open the main activity but opens the dot activity
-            then another touch opens the main activity-->
 
         <service
             android:name=".DotService"
