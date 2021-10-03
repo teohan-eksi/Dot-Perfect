@@ -1,7 +1,6 @@
 package com.sweetsour.dotperfect
 
 import android.content.Intent
-import android.graphics.PixelFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,9 +20,11 @@ class MainActivity : AppCompatActivity() {
         showDotSwitch.setOnCheckedChangeListener{_ , isChecked ->
             if(isChecked){
                 Log.d("MainActivity", "showDotSwitch is checked")
+                //serviceIntent.putExtra("letsDestroy", false)
                 startService(serviceIntent)
             }else{
                 Log.d("MainActivity", "showDotSwitch is not checked")
+                //serviceIntent.putExtra("letsDestroy", true)
                 stopService(serviceIntent)
             }
         }
