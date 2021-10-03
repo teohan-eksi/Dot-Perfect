@@ -3,6 +3,7 @@
     package="com.sweetsour.dotperfect">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -12,11 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DotPerfect">
 
+        <!--
+        TODO: comment
+         -->
         <service
             android:name=".DotService"
             android:description="@string/dot_service_description"
             android:stopWithTask="false"
-            android:process=":dotProcess"
+            android:process="com.sweetsour.dotperfect.dotprocess"
             android:enabled="true"
             android:exported="true" />
 
