@@ -10,25 +10,13 @@ import android.os.IBinder
 import android.util.Log
 import android.view.*
 import android.widget.Button
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.TypedArrayUtils.getText
-
 import android.app.Notification
-
-import android.app.PendingIntent
-import androidx.core.view.doOnAttach
-import androidx.core.view.doOnDetach
-
-//TODO: commenting
 
 class DotService : Service() {
     private val TAG = "DotService"
     private lateinit var windowManager: WindowManager
     private lateinit var dotViewGroup: ViewGroup
-    //if it's true, stop service and let the destroy method do its job.
-    private var letsDestroy: Boolean = false
-    private var isRunning = false
+    private var isRunning = false //to check if the service is running.
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "onStartCommand")
@@ -51,9 +39,11 @@ class DotService : Service() {
             return super.onStartCommand(intent, flags, startId)
         }*/
 
+        //It's advised to do initial UI operations and showing notifications here.
         showNotification()
         showDotOnScreen()
 
+        //if the service gets killed by the OS, this will restart it.
         return START_STICKY
     }
 
@@ -71,7 +61,7 @@ class DotService : Service() {
         //inflate the layout
         dotViewGroup = layoutInflater.inflate(R.layout.dot_layout, null) as ViewGroup
 
-        //set version specific layout type
+        //set version specific layout type. It's important for compatibility and function.
         var layoutType: Int
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             layoutType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -87,13 +77,13 @@ class DotService : Service() {
             WindowManager.LayoutParams.WRAP_CONTENT,
             layoutType,
             //even when this window is focusable (its FLAG_NOT_FOCUSABLE is not set),
-            //allow any pointer events outside of the window to be sent to the
+            //allow any pointer events OUTSIDE of the window to be sent to the
             //windows behind it. Otherwise it will consume all pointer events itself,
             //regardless of whether they are inside of the window.
             WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-                    //this window won't ever get key input focus, so the user can not send key
+                    //this window won't ever get key input focus, so the user can NOT send key
                     //or other button events to it. Those will instead go to whatever focusable
-                    //window is behind it. This flag will also enable FLAG_NOT_TOUCH_MODAL whether
+                    //window is BEHIND it. This flag will also enable FLAG_NOT_TOUCH_MODAL whether
                     //or not that is explicitly set. Setting this flag also implies that the
                     //window will not need to interact with a soft input method,
                     //so it will be Z-ordered and positioned independently of any active
@@ -119,32 +109,32 @@ class DotService : Service() {
         val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
         dotPerfect.setOnClickListener {
             Log.d(TAG, "dot perfect tap")
+            //TODO: implement dot functionality
         }
-        dotPerfect.setBackgroundColor(Color.argb(150, 0, 51, 53))
+        dotPerfect.setBackgroundColor(Color.argb(200, 0, 51, 53))
         //Color.parseColor("#AARRGGBB") also works
     }
 
     private fun showNotification() {
-        // In this sample, we'll use the same text for the ticker and the expanded notification
-        val text = "myText"
-
         /*// The PendingIntent to launch our activity if the user selects this notification
         val contentIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, LocalServiceActivities.Controller::class.java), 0
         )*/
 
-        // Set the info for the views that show in the notification panel.
+        //TODO: Builder is deprecated, implement compatibility for higher versions.
+        //Set the info for the views that show in the notification panel.
         val notification: Notification = Notification.Builder(this)
             .setSmallIcon(R.color.teal_200) // the status icon
-            .setTicker(text) // the status text
+            .setTicker("ticker text") // the status text
             .setWhen(System.currentTimeMillis()) // the time stamp
             .setContentTitle("my title") // the label of the entry
-            .setContentText(text) // the contents of the entry
+            .setContentText("content text") // the contents of the entry
             //.setContentIntent(contentIntent) // The intent to send when the entry is clicked
             .build()
 
         notification.flags = Notification.FLAG_FOREGROUND_SERVICE or
+                //clear all function doesn't clear the notification.
                 Notification.FLAG_NO_CLEAR
 
         //deprecated in 26, implement NotificationChannel#getImportance() for that sdks
@@ -152,7 +142,7 @@ class DotService : Service() {
 
         startForeground(101, notification)
 
-/*        // Send the notification.
+        /* // Send the notification.
         val mNM: NotificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNM.notify(101, notification)*/
     }
@@ -173,6 +163,7 @@ class DotService : Service() {
         //stopSelf()
     }
 
+    //clearing the recents window won't have any effect to the service
     override fun onTaskRemoved(rootIntent: Intent?) {
         Log.d(TAG, "onTaskRemoved, isRunning: $isRunning")
         if(isRunning){
