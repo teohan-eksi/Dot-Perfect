@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sweetsour.dotperfect">
 
+    <!--
+        SYSTEM_ALERT_WINDOW lets us draw over other apps.
+        FOREGROUND_SERVICE is required for compatibility with higher versions
+    -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -14,8 +18,9 @@
         android:theme="@style/Theme.DotPerfect">
 
         <!--
-        TODO: comment
-         -->
+            Notice that the service runs in its own process.
+            stopWithTask="false" lets us override onTaskRemoved function.
+        -->
         <service
             android:name=".DotService"
             android:description="@string/dot_service_description"
