@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.app.Notification
+import androidx.constraintlayout.widget.ConstraintSet
 
 class DotService : Service() {
     private val TAG = "DotService"
@@ -105,15 +106,11 @@ class DotService : Service() {
         windowManager.addView(dotViewGroup, dotLayoutParams)
         Log.d(TAG, "dotViewGroup added")
 
-        //dot button
-        val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
-        dotPerfect.setOnClickListener {
-            Log.d(TAG, "dot perfect tap")
-            //TODO: implement dot functionality
-        }
-        dotPerfect.setBackgroundColor(Color.argb(200, 0, 51, 53))
-        //Color.parseColor("#AARRGGBB") also works
+        //setup dot funcionality
+        setupDot(dotLayoutParams)
+
     }
+
 
     private fun showNotification() {
         /*// The PendingIntent to launch our activity if the user selects this notification
@@ -145,6 +142,37 @@ class DotService : Service() {
         /* // Send the notification.
         val mNM: NotificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNM.notify(101, notification)*/
+    }
+
+    private fun setupDot(lp: WindowManager.LayoutParams){
+        val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
+        dotPerfect.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, e: MotionEvent?): Boolean {
+                when(e?.action){
+                    MotionEvent.ACTION_DOWN -> {
+                        Log.d(TAG, "action down")
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        Log.d(TAG,
+                            "(x, y): ${e?.x}, ${e?.y} | " +
+                                "event time: ${e?.eventTime} | " +
+                                "down time: ${e?.downTime}")
+
+                        lp.x = e.x.toInt()
+                        lp.y = e.y.toInt()
+
+                        windowManager.updateViewLayout(dotViewGroup, lp)
+                    }
+                }
+
+                v?.performClick()
+
+                return true
+            }
+        })
+
+        dotPerfect.setBackgroundColor(Color.argb(200, 0, 51, 53))
+        //Color.parseColor("#AARRGGBB") also works
     }
 
     override fun onDestroy() {
