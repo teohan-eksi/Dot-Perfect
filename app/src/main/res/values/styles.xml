@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        Since the service window is of TYPE_PHONE, there is no need to implement a dialog theme.
+    -->
     <style name="Theme.AppCompat.DayNight.DotService" parent="Theme.AppCompat.DayNight.Dialog">
         <!-- removes the white edges (window background) around the dot
          and it only works here. Learn more about styles and themes-->
         <item name="android:windowBackground">@null</item>
-
     </style>
 </resources>
