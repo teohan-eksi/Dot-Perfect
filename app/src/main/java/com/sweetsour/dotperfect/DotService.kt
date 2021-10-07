@@ -1,5 +1,6 @@
 package com.sweetsour.dotperfect
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,8 @@ import android.view.*
 import android.widget.Button
 import android.app.Notification
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.marginRight
+import androidx.core.view.marginStart
 
 class DotService : Service() {
     private val TAG = "DotService"
@@ -100,7 +103,7 @@ class DotService : Service() {
         dotViewGroup.fitsSystemWindows = true
 
         //set initial position of the dot.
-        dotLayoutParams.gravity = Gravity.TOP or Gravity.END
+
 
         //finally, add the layout to the screen
         windowManager.addView(dotViewGroup, dotLayoutParams)
@@ -144,24 +147,50 @@ class DotService : Service() {
         mNM.notify(101, notification)*/
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupDot(lp: WindowManager.LayoutParams){
+
+        var isUpdate = true
         val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
+        val DOT_HE = 0 //Dot half-edge length
+
         dotPerfect.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, e: MotionEvent?): Boolean {
                 when(e?.action){
                     MotionEvent.ACTION_DOWN -> {
                         Log.d(TAG, "action down")
-                    }
-                    MotionEvent.ACTION_MOVE -> {
-                        Log.d(TAG,
-                            "(x, y): ${e?.x}, ${e?.y} | " +
-                                "event time: ${e?.eventTime} | " +
-                                "down time: ${e?.downTime}")
+                        Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
+                        Log.d(TAG,"dotViewGroup (x, y): ${lp.x}, ${lp.y}")
 
-                        lp.x = e.x.toInt()
-                        lp.y = e.y.toInt()
+                        if(e.x >= DOT_HE && e.y <= DOT_HE){
+                            lp.x += e.x.toInt()
+                            lp.y -= e.y.toInt()
+                        }else if(e.x <= DOT_HE && e.y <= DOT_HE){
+                            lp.x -= e.x.toInt()
+                            lp.y -= e.y.toInt()
+                        }else if(e.x <= DOT_HE && e.y >= DOT_HE){
+                            lp.x -= e.x.toInt()
+                            lp.y += e.y.toInt()
+                        }else{
+                            lp.x += e.x.toInt()
+                            lp.y += e.y.toInt()
+                        }
 
                         windowManager.updateViewLayout(dotViewGroup, lp)
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        if(isUpdate) {
+                            /*Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
+                            Log.d(TAG,"dot (x, y): ${lp.x}, ${lp.y}")
+                            lp.x = e.x.toInt()
+                            lp.y = e.y.toInt()
+                            windowManager.updateViewLayout(dotViewGroup, lp)
+                            Log.d(TAG, "moved dot (x, y): ${lp.x}, ${lp.y}")
+                            isUpdate = false*/
+                        }
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        isUpdate = true
                     }
                 }
 
