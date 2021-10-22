@@ -150,8 +150,18 @@ class DotService : Service() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setupDot(lp: WindowManager.LayoutParams){
         val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
-        var previousX: Int = 0
-        var previousY: Int = 0
+        var previousX = 0
+        var previousY = 0
+        var changeX = 0
+        var changeY = 0
+        var previousChangeX = 0
+        var previousChangeY = 0
+        val SENSITIVITY_CONSTANT = 10
+        var changeList = mutableListOf<List<Int>>()
+        var revCount = 0
+        var netChangeX=0
+        var netChangeY=0
+
         dotPerfect.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, e: MotionEvent?): Boolean {
                 when(e?.action){
@@ -168,14 +178,44 @@ class DotService : Service() {
                         Log.d(TAG, "previous (x,y): ${previousX}, ${previousY}")
                         Log.d(TAG,"dotViewGroup (x, y): ${lp.x}, ${lp.y}")*/
 
-                        lp.x += e.x.toInt() - previousX
-                        lp.y += e.y.toInt() - previousY
-                        Log.d(TAG, "change vector: ${lp.x}, ${lp.y}")
+                        if(revCount < 5){
+                            netChangeX += changeX
+                            netChangeY += changeY
+                            
+                            revCount += 1
+                        }else{
+                            Log.d(TAG, "netChanges: $netChangeX, $netChangeY")
+
+                            lp.x += netChangeX
+                            lp.y += netChangeY
+                            windowManager.updateViewLayout(dotViewGroup, lp)
+
+                            revCount -= 3
+                        }
+
+                        changeX = e.x.toInt() - previousX
+                        changeY = e.y.toInt() - previousY
 
                         previousX = e.x.toInt()
                         previousY = e.y.toInt()
 
-                        windowManager.updateViewLayout(dotViewGroup, lp)
+
+                        /*
+                        if(changeX - previousChangeX >= SENSITIVITY_CONSTANT ||
+                            changeX - previousChangeX <= (-1*SENSITIVITY_CONSTANT)){
+
+                        }
+                        if(changeY - previousChangeY >= SENSITIVITY_CONSTANT ||
+                            changeY - previousChangeY <= (-1*SENSITIVITY_CONSTANT)){
+
+                        }
+                        Log.d(TAG, "change vector: ${lp.x}, ${lp.y}")
+
+                        previousChangeX = changeX
+                        previousChangeY = changeY
+
+
+                        */
                     }
                     MotionEvent.ACTION_UP -> {
                     }
