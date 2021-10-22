@@ -152,7 +152,8 @@ class DotService : Service() {
 
         var isUpdate = true
         val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
-        val DOT_HE = 0 //Dot half-edge length
+        var previousX: Int = 0
+        var previousY: Int = 0
 
         dotPerfect.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, e: MotionEvent?): Boolean {
@@ -162,7 +163,10 @@ class DotService : Service() {
                         Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
                         Log.d(TAG,"dotViewGroup (x, y): ${lp.x}, ${lp.y}")
 
-                        if(e.x >= DOT_HE && e.y <= DOT_HE){
+                        previousX = e.x.toInt()
+                        previousY = e.y.toInt()
+
+                        /*if(e.x >= DOT_HE && e.y <= DOT_HE){
                             lp.x += e.x.toInt()
                             lp.y -= e.y.toInt()
                         }else if(e.x <= DOT_HE && e.y <= DOT_HE){
@@ -175,8 +179,7 @@ class DotService : Service() {
                             lp.x += e.x.toInt()
                             lp.y += e.y.toInt()
                         }
-
-                        windowManager.updateViewLayout(dotViewGroup, lp)
+                        windowManager.updateViewLayout(dotViewGroup, lp)*/
                     }
                     MotionEvent.ACTION_MOVE -> {
                         if(isUpdate) {
@@ -188,9 +191,20 @@ class DotService : Service() {
                             Log.d(TAG, "moved dot (x, y): ${lp.x}, ${lp.y}")
                             isUpdate = false*/
                         }
+                        Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
+                        Log.d(TAG, "previous (x,y): ${previousX}, ${previousY}")
+                        Log.d(TAG,"dotViewGroup (x, y): ${lp.x}, ${lp.y}")
+
+                        lp.x += e.x.toInt() - previousX
+                        lp.y += e.y.toInt() - previousY
+                        Log.d(TAG, "change vector: ${lp.x}, ${lp.y}")
+
+                        previousX = e.x.toInt()
+                        previousY = e.y.toInt()
+
+                        windowManager.updateViewLayout(dotViewGroup, lp)
                     }
                     MotionEvent.ACTION_UP -> {
-                        isUpdate = true
                     }
                 }
 
