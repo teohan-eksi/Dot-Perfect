@@ -149,12 +149,9 @@ class DotService : Service() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupDot(lp: WindowManager.LayoutParams){
-
-        var isUpdate = true
         val dotPerfect: Button = dotViewGroup.findViewById(R.id.dotPerfect)
         var previousX: Int = 0
         var previousY: Int = 0
-
         dotPerfect.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, e: MotionEvent?): Boolean {
                 when(e?.action){
@@ -165,35 +162,11 @@ class DotService : Service() {
 
                         previousX = e.x.toInt()
                         previousY = e.y.toInt()
-
-                        /*if(e.x >= DOT_HE && e.y <= DOT_HE){
-                            lp.x += e.x.toInt()
-                            lp.y -= e.y.toInt()
-                        }else if(e.x <= DOT_HE && e.y <= DOT_HE){
-                            lp.x -= e.x.toInt()
-                            lp.y -= e.y.toInt()
-                        }else if(e.x <= DOT_HE && e.y >= DOT_HE){
-                            lp.x -= e.x.toInt()
-                            lp.y += e.y.toInt()
-                        }else{
-                            lp.x += e.x.toInt()
-                            lp.y += e.y.toInt()
-                        }
-                        windowManager.updateViewLayout(dotViewGroup, lp)*/
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        if(isUpdate) {
-                            /*Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
-                            Log.d(TAG,"dot (x, y): ${lp.x}, ${lp.y}")
-                            lp.x = e.x.toInt()
-                            lp.y = e.y.toInt()
-                            windowManager.updateViewLayout(dotViewGroup, lp)
-                            Log.d(TAG, "moved dot (x, y): ${lp.x}, ${lp.y}")
-                            isUpdate = false*/
-                        }
-                        Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
+                        /*Log.d(TAG,"event (x, y): ${e.x}, ${e.y}")
                         Log.d(TAG, "previous (x,y): ${previousX}, ${previousY}")
-                        Log.d(TAG,"dotViewGroup (x, y): ${lp.x}, ${lp.y}")
+                        Log.d(TAG,"dotViewGroup (x, y): ${lp.x}, ${lp.y}")*/
 
                         lp.x += e.x.toInt() - previousX
                         lp.y += e.y.toInt() - previousY
