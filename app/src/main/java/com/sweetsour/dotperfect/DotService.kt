@@ -126,10 +126,10 @@ class DotService : Service() {
         //Set the info for the views that show in the notification panel.
         val notification: Notification = Notification.Builder(this)
             .setSmallIcon(R.color.teal_200) // the status icon
-            .setTicker("ticker text") // the status text
+            .setTicker("Dot is Shown.") // the status text
             .setWhen(System.currentTimeMillis()) // the time stamp
-            .setContentTitle("my title") // the label of the entry
-            .setContentText("content text") // the contents of the entry
+            .setContentTitle("Dot Perfect") // the label of the entry
+            .setContentText("") // the contents of the entry
             //.setContentIntent(contentIntent) // The intent to send when the entry is clicked
             .build()
 
